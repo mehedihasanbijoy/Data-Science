@@ -95,6 +95,31 @@ insert into students values (108, null, -20, 200);
 select * from students;
 
 
+
+
+#####################################
+# after insert trigger
+#####################################
+drop trigger check_age_after_trigger;
+delimiter //
+create trigger check_age_after_trigger
+after insert on students
+for each row
+begin
+	if new.age < 18 then insert into message values (new.id, 'You must be at least 18');
+    end if;
+end //
+delimiter ;
+
+select * from students;
+select * from message;
+
+insert into students values 
+(109, 'Pater', 16, 64),
+(110, 'Tony', -10, 30),
+(111, 'Thanos', 60, 120);
+
+
 ##################################
 -- drop a trigger
 drop trigger triggerName;
